@@ -52,9 +52,7 @@ def load_data():
     return df
 
 # ------------------ SMART DETECTION ------------------
-df = load_data()
 
-sales_col, profit_col, date_col, category_col, region_col = detect_columns(df)
 
 def detect_columns(df):
     cols = df.columns
@@ -65,9 +63,12 @@ def detect_columns(df):
     category = next((c for c in cols if "category" in c), None)
     region = next((c for c in cols if "region" in c), None)
 
-    return sales, profit, date, category, region
+    return sales_col, profit_col, date_col, category_col, region_col
+
+df = load_data()
 
 sales_col, profit_col, date_col, category_col, region_col = detect_columns(df)
+
 
 # ------------------ HEADER ------------------
 st.markdown("## 📊 Dashboard")

@@ -33,27 +33,23 @@ if not st.session_state["login"]:
     st.stop()
 
 # ------------------ LOAD DATA ------------------
+import os
+import pandas as pd
+import streamlit as st
+
 @st.cache_data
 def load_data():
-    try:
-        df = pd.read_csv("cleaned_superstore.csv")
-    except:
-        df = pd.read_csv("SampleSuperstore.csv")
+    BASE_DIR = os.path.dirname(__file__)
 
-    # Clean columns
+    file_path = os.path.join(BASE_DIR, "..", "data", "SampleSuperstore.csv")
+    file_path = os.path.abspath(file_path)
+
+    df = pd.read_csv(file_path)
+
+    # clean columns
     df.columns = df.columns.str.strip().str.lower().str.replace(" ", "_")
 
-    # Convert date safely
-    for col in df.columns:
-        if "date" in col:
-            try:
-                df[col] = pd.to_datetime(df[col])
-            except:
-                pass
-
     return df
-
-df = load_data()
 
 # ------------------ SMART DETECTION ------------------
 def detect_columns(df):

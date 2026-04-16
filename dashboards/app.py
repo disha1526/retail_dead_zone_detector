@@ -52,6 +52,10 @@ def load_data():
     return df
 
 # ------------------ SMART DETECTION ------------------
+df = load_data()
+
+sales_col, profit_col, date_col, category_col, region_col = detect_columns(df)
+
 def detect_columns(df):
     cols = df.columns
 

@@ -1,5 +1,6 @@
-import streamlit as st
+import os
 import pandas as pd
+import streamlit as st
 import plotly.express as px
 
 # ------------------ CONFIG ------------------
@@ -40,31 +41,24 @@ import streamlit as st
 @st.cache_data
 def load_data():
     BASE_DIR = os.path.dirname(__file__)
-
     file_path = os.path.join(BASE_DIR, "..", "data", "SampleSuperstore.csv")
     file_path = os.path.abspath(file_path)
 
     df = pd.read_csv(file_path)
-
-    # clean columns
     df.columns = df.columns.str.strip().str.lower().str.replace(" ", "_")
 
     return df
-
-# ------------------ SMART DETECTION ------------------
-
-
 def detect_columns(df):
     cols = df.columns
 
-    sales = next((c for c in cols if "sales" in c), None)
-    profit = next((c for c in cols if "profit" in c), None)
-    date = next((c for c in cols if "date" in c), None)
-    category = next((c for c in cols if "category" in c), None)
-    region = next((c for c in cols if "region" in c), None)
+    sales_col = next((c for c in cols if "sales" in c), None)
+    profit_col = next((c for c in cols if "profit" in c), None)
+    date_col = next((c for c in cols if "date" in c), None)
+    category_col = next((c for c in cols if "category" in c), None)
+    region_col = next((c for c in cols if "region" in c), None)
 
     return sales_col, profit_col, date_col, category_col, region_col
-
+    
 df = load_data()
 
 sales_col, profit_col, date_col, category_col, region_col = detect_columns(df)
